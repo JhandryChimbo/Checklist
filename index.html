@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist para Diagnóstico Estratégico</title>
+    <!-- Incluye el CDN de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .icon {
+            /* Estilos básicos para los iconos SVG */
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen p-4 sm:p-8">
+
+    <div id="app-container" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden p-6 sm:p-10">
+        <header class="text-center mb-8">
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-indigo-600 leading-tight tracking-wider">
+                MEDILAB
+            </h1>
+            <h2 class="text-xl sm:text-2xl mt-2 font-semibold">
+                DOCUMENTACIÓN BASE PARA UN DIAGNÓSTICO ESTRATÉGICO EN SERVICIOS DE SALUD
+            </h2>
+            <p class="mt-4 text-gray-500 italic">
+                Marca las casillas a medida que recopiles los documentos.
+            </p>
+        </header>
+
+        <div id="completion-message-container"></div>
+
+        <div id="checklist-container" class="space-y-4">
+            <!-- Las secciones de la lista de verificación se renderizarán aquí con JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Los datos del documento de checklist
+        const documentSections = [
+            {
+                id: 'legal',
+                title: '1. Documentación Legal y Reglamentaria',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-blue-500"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>`,
+                items: [
+                    'Estatuto jurídico de la organización (razón social, permisos, constitución legal).',
+                    'Registro sanitario y autorizaciones del Ministerio de Salud Pública (MSP).',
+                    'Reglamento interno y manuales de funciones.',
+                    'Certificaciones de habilitación de servicios de salud.',
+                ],
+            },
+            {
+                id: 'planning',
+                title: '2. Planificación Institucional',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-green-500"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 10h6"/><path d="M8 14h6"/></svg>`,
+                items: [
+                    'Plan Estratégico Institucional anterior (si existe): visión, misión, objetivos, metas.',
+                    'Matriz de planificación vigente (POA – Plan Operativo Anual).',
+                    'Misión, visión y valores institucionales.',
+                    'Manual de procesos y procedimientos internos (MAPRO).',
+                    'Modelo de atención al cliente.',
+                ],
+            },
+            {
+                id: 'organization',
+                title: '3. Información Organizacional y Administrativa',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-purple-500"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M12 16h6"/><path d="M12 12h6"/><path d="M12 8h6"/><path d="M8 8h.01"/><path d="M8 12h.01"/><path d="M8 16h.01"/></svg>`,
+                items: [
+                    'Organigrama actualizado.',
+                    'Base de datos del personal o nómina (médico, administrativo, técnico).',
+                    'Flujogramas de atención y prestación de servicios.',
+                ],
+            },
+            {
+                id: 'environment',
+                title: '4. Análisis de Entorno y Contexto (OPE)',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-red-500"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>`,
+                items: [
+                    'Análisis político, económico, social, tecnológico, ambiental y legal (análisis PESTEL).',
+                    'Normativas vigentes del MSP, CNE, ARCSA, IECS, etc.',
+                    'Estadísticas locales y nacionales de salud (INEC, MSP).',
+                    'Lineamientos del Plan Decenal de Salud 2022–2031.',
+                    'Objetivos de Desarrollo Sostenible (ODS), especialmente el ODS 3 (salud y bienestar).',
+                ],
+            },
+            {
+                id: 'clinical',
+                title: '5. Información de Gestión Clínica y de Servicios',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-yellow-500"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+                items: [
+                    'Portafolio de servicios (centro de diagnóstico, hospitalización, emergencia, quirófano, consulta externa, etc.).',
+                    'Estadísticas de producción: atenciones, exámenes realizados, demanda y oferta para cada grupo.',
+                    'Tiempos promedio de atención, tasa de satisfacción del cliente, y tasa de utilización de equipos y recursos.',
+                    'Cumplimiento de estándares de calidad y seguridad del paciente (Normas INEN, MSP, ISO si aplica).',
+                ],
+            },
+            {
+                id: 'finance',
+                title: '6. Finanzas y Recursos',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-teal-500"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5S14.49 16.5 12 16.5zm-1-7h2v2h-2zm0 3h2v2h-2z"/></svg>`,
+                items: [
+                    'Presupuesto institucional anual.',
+                    'Estados financieros recientes (balance general, flujo de caja).',
+                    'Ingresos por servicios y convenios (particulares, aseguradoras, MSP, IESS).',
+                    'Costos de operación y mantenimiento.',
+                ],
+            },
+            {
+                id: 'tech',
+                title: '7. Tecnología y Sistemas de Información',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-indigo-500"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M12 14v4"/><path d="M12 12v-2"/><path d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>`,
+                items: [
+                    'Infraestructura tecnológica (sistemas HIS, LIS, RIS, ERP, etc.).',
+                    'Equipamiento médico y su mantenimiento.',
+                    'Nivel de digitalización del expediente clínico.',
+                    'Protocolos de ciberseguridad y manejo de datos de pacientes. (Especial énfasis)',
+                ],
+            },
+            {
+                id: 'quality',
+                title: '8. Información de Gestión de Calidad y Evaluación',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-cyan-500"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="8 12 12 16 16 12"/></svg>`,
+                items: [
+                    'Informes de auditorías internas o externas (sanitarias, financieras, de calidad).',
+                    'Indicadores de gestión institucional (KPI clínicos, administrativos y financieros).',
+                    'Plan de mejora continua y planes de contingencia.',
+                    'Resultados de encuestas de satisfacción del paciente.',
+                    'Evaluaciones de riesgos sanitarios y ocupacionales.',
+                ],
+            },
+            {
+                id: 'human-resources',
+                title: '9. Gestión de Talento Humano',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-orange-500"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+                items: [
+                    'Políticas de formación continua y capacitación.',
+                    'Evaluaciones de desempeño y clima organizacional.',
+                    'Manuales de inducción, bioseguridad y salud ocupacional.',
+                    'Manual de funciones por procesos.',
+                ],
+            },
+            {
+                id: 'external',
+                title: '10. Relaciones Externas e Interinstitucionales',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-rose-500"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
+                items: [
+                    'Convenios de cooperación (con MSP, IESS, municipios, universidades, otros).',
+                    'Participación en redes de salud o territorios de salud.',
+                    'Reportes enviados a entidades reguladoras.',
+                ],
+            },
+        ];
+
+        // Función para cargar los estados guardados del localStorage
+        function loadState() {
+            const savedOpenSections = JSON.parse(localStorage.getItem('openSections')) || {};
+            const savedCheckedItems = JSON.parse(localStorage.getItem('checkedItems')) || {};
+            return { savedOpenSections, savedCheckedItems };
+        }
+
+        // Función para guardar los estados en el localStorage
+        function saveState(openSections, checkedItems) {
+            localStorage.setItem('openSections', JSON.stringify(openSections));
+            localStorage.setItem('checkedItems', JSON.stringify(checkedItems));
+        }
+
+        // Variable global para almacenar el estado
+        let appState = {
+            openSections: {},
+            checkedItems: {},
+        };
+
+        const { savedOpenSections, savedCheckedItems } = loadState();
+        appState.openSections = savedOpenSections;
+        appState.checkedItems = savedCheckedItems;
+
+        // Referencias a los contenedores del DOM
+        const checklistContainer = document.getElementById('checklist-container');
+        const completionMessageContainer = document.getElementById('completion-message-container');
+
+        // Función para renderizar la lista de verificación completa
+        function renderChecklist() {
+            checklistContainer.innerHTML = ''; // Limpiar el contenedor antes de renderizar
+            let allItemsChecked = true;
+            let totalItems = 0;
+
+            documentSections.forEach((section) => {
+                totalItems += section.items.length;
+                const isSectionOpen = appState.openSections[section.id];
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'bg-gray-50 rounded-xl shadow-sm overflow-hidden border border-gray-200';
+
+                // Botón para colapsar/expandir
+                const button = document.createElement('button');
+                button.className = 'w-full text-left p-4 sm:p-5 flex items-center justify-between font-bold text-lg sm:text-xl transition-all duration-300 hover:bg-gray-100';
+                button.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        ${section.icon}
+                        <span>${section.title}</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transform transition-transform duration-300 ${isSectionOpen ? 'rotate-180' : 'rotate-0'}">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                `;
+                button.onclick = () => {
+                    appState.openSections[section.id] = !appState.openSections[section.id];
+                    saveState(appState.openSections, appState.checkedItems);
+                    renderChecklist();
+                };
+                sectionDiv.appendChild(button);
+
+                // Contenedor de la lista de elementos
+                if (isSectionOpen) {
+                    const itemsDiv = document.createElement('div');
+                    itemsDiv.className = 'p-4 sm:p-5 border-t border-gray-200';
+                    const ul = document.createElement('ul');
+                    ul.className = 'space-y-3';
+
+                    section.items.forEach((item, index) => {
+                        const itemId = `${section.id}-${index}`;
+                        const isChecked = !!appState.checkedItems[itemId];
+                        
+                        if (!isChecked) {
+                            allItemsChecked = false;
+                        }
+
+                        const li = document.createElement('li');
+                        li.className = 'flex items-start';
+                        li.innerHTML = `
+                            <input
+                                type="checkbox"
+                                id="${itemId}"
+                                class="mt-1 w-5 h-5 rounded-md text-indigo-600 bg-gray-200 border-gray-300 focus:ring-indigo-500 accent-indigo-600 transition-colors duration-200 cursor-pointer"
+                                ${isChecked ? 'checked' : ''}
+                            />
+                            <label
+                                for="${itemId}"
+                                class="ml-3 text-base sm:text-lg flex-1 cursor-pointer transition-colors duration-200 ${isChecked ? 'text-gray-400 line-through' : ''}"
+                            >
+                                ${item}
+                            </label>
+                        `;
+
+                        // Agregar el evento onchange al checkbox
+                        li.querySelector('input').onchange = (e) => {
+                            appState.checkedItems[itemId] = e.target.checked;
+                            saveState(appState.openSections, appState.checkedItems);
+                            renderChecklist();
+                        };
+
+                        ul.appendChild(li);
+                    });
+
+                    itemsDiv.appendChild(ul);
+                    sectionDiv.appendChild(itemsDiv);
+                }
+
+                checklistContainer.appendChild(sectionDiv);
+            });
+
+            // Renderizar el mensaje de completado si todos los elementos están marcados
+            renderCompletionMessage(allItemsChecked);
+        }
+
+        // Función para renderizar el mensaje de completado
+        function renderCompletionMessage(isCompleted) {
+            completionMessageContainer.innerHTML = '';
+            if (isCompleted) {
+                completionMessageContainer.innerHTML = `
+                    <div class="bg-green-100 text-green-700 p-4 rounded-xl flex items-center justify-center space-x-3 mb-6 shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 animate-pulse">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        <span class="font-bold text-lg">
+                            ¡Felicidades! Has completado la lista de verificación.
+                        </span>
+                    </div>
+                `;
+            }
+        }
+
+        // Iniciar la aplicación al cargar la página
+        window.onload = renderChecklist;
+    </script>
+</body>
+</html>
